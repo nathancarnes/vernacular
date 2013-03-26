@@ -1,4 +1,4 @@
-<?
+<?php
 class VernacularDateTime{
   public function format_date($date, $format = 'F j, Y'){
     return date($format, strtotime($date));

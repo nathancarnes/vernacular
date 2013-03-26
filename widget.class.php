@@ -1,4 +1,4 @@
-<?
+<?php
 class VernacularWidget extends WP_Widget {
   public $id, $title;
   public $height = 400;
@@ -48,7 +48,8 @@ class VernacularWidget extends WP_Widget {
     <option value="<?= $value; ?>" <?= $selected ? ' selected' : ''; ?>>
       <?= $label; ?>
     </option>
-  <? }
+  <?
+  }
 
   private function value($value, $default){
     if($value == ''){
@@ -60,25 +61,29 @@ class VernacularWidget extends WP_Widget {
 
   private function label($id, $title){ ?>
     <label for="<?= $this->get_field_id( $id ); ?>"><?= $title ?></label>
-  <? }
+  <?php
+  }
 
   private function field_meta($id, $class = '', $style = ''){ ?>
     id="<?= $this->get_field_id( $id ); ?>" name="<?= $this->get_field_name( $id ); ?>" class="<?= $class; ?>" style="<?= $style; ?>"
-  <? }
+  <?
+  }
 
   public function textfield($id, $title, $default = ''){ ?>
     <p>
       <?= $this->label($id, $title); ?>
       <input <?= $this->field_meta($id, 'widefat'); ?> value="<?= $this->value($this->form_instance[$id], $default); ?>" type="text"/>
     </p>
-  <? }
+  <?php
+  }
 
   public function textarea($id, $title, $default = ''){ ?>
     <p>
       <?= $this->label($id, $title); ?>
       <textarea <?= $this->field_meta($id, 'widefat', 'height:5em;'); ?>><?= $this->value($this->form_instance[$id], $default); ?></textarea>
     </p>
-  <? }
+  <?php
+  }
 
   public function dropdown($id, $title, $options){ ?>
     <p>
@@ -89,7 +94,8 @@ class VernacularWidget extends WP_Widget {
         <? endforeach; ?>
       </select>
     </p>
-  <? }
+  <?php
+  }
 
   public function category($id = "category", $title = "Category"){ ?>
     <p>
@@ -104,7 +110,8 @@ class VernacularWidget extends WP_Widget {
         'show_option_all' => 'All Categories'
       )); ?>
     </p>
-  <? }
+  <?php
+  }
 
   public function tag($id = "tag", $title = "Tag"){ ?>
     <p>
@@ -117,7 +124,8 @@ class VernacularWidget extends WP_Widget {
         <? endforeach; ?>
       </select>
     </p>
-  <? }
+  <?php
+  }
 
   public function tags($id = "tags", $title = "Tags"){ ?>
     <p>
@@ -129,7 +137,6 @@ class VernacularWidget extends WP_Widget {
         <? endforeach; ?>
       </select>
     </p>
-  <? }
+  <?php
+  }
 }
-
-class_alias('VernacularWidget', '_widget');

@@ -1,4 +1,5 @@
-<?
+<?php
+
 // Utilities
 require_once('utilities.php');
 

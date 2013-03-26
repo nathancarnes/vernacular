@@ -1,4 +1,4 @@
-<?
+<?php
 class VernacularRegistrar{
   public $name, $singular_name, $klass, $joins;
 
@@ -86,3 +86,5 @@ class VernacularPostType extends VernacularRegistrar{
   }
 }
 class_alias('VernacularPostType', '_posttype');
+
+

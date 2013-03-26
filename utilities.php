@@ -1,4 +1,4 @@
-<?
+<?php
 // Unregister Sidebars
 function unregister_sidebars($sidebars){
   $GLOBALS['_unregister_sidebars'] = arrayize($sidebars);
