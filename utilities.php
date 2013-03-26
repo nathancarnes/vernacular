@@ -5,8 +5,10 @@ function unregister_sidebars($sidebars){
 }
 
 function unregistered_sidebars_callback(){
-  foreach($GLOBALS['_unregister_sidebars'] as $sidebar){
-    unregister_sidebar($sidebar);
+  if($GLOBALS['_unregister_sidebars']){
+    foreach($GLOBALS['_unregister_sidebars'] as $sidebar){
+      unregister_sidebar($sidebar);
+    }
   }
 
   unset($GLOBALS['_unregister_sidebars']);
