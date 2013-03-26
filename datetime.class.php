@@ -38,3 +38,5 @@ class VernacularDateTime{
     return $dates;
   }
 }
+
+class_alias('VernacularDateTime', '_datetime');

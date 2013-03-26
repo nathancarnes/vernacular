@@ -131,3 +131,5 @@ class VernacularWidget extends WP_Widget {
     </p>
   <? }
 }
+
+class_alias('VernacularWidget', '_widget');

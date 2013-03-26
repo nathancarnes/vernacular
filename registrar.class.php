@@ -62,6 +62,7 @@ class VernacularTaxonomy extends VernacularRegistrar{
     );
   }
 }
+class_alias('VernacularTaxonomy', '_taxonomy');
 
 class VernacularPostType extends VernacularRegistrar{
   public $public = true;
@@ -84,3 +85,4 @@ class VernacularPostType extends VernacularRegistrar{
     );
   }
 }
+class_alias('VernacularPostType', '_posttype');
