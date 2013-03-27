@@ -14,7 +14,7 @@ class VernacularRegistrar{
     if($this->singular_name){
       return $this->singular_name;
     } else{
-      return ucfirst($this->klass).'s';
+      return ucfirst($this->klass);
     }
   }
 
@@ -22,7 +22,7 @@ class VernacularRegistrar{
     if($this->name){
       return $this->name;
     } else{
-      return ucfirst($this->klass);
+      return ucfirst($this->klass).'s';
     }
   }
 
