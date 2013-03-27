@@ -7,6 +7,12 @@ class VernacularLoop{
       'posts_per_page' => $count,
     ));
 
+  public function recent_posts($count = 3, $post_type = 'post'){
+    $query = new WP_Query(array(
+      'post_type' => $post_type,
+      'posts_per_page' => $count,
+    ));
+
     return $query->get_posts();
   }
 
