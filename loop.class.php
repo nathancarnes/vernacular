@@ -6,6 +6,8 @@ class VernacularLoop{
       'orderby' => 'rand',
       'posts_per_page' => $count,
     ));
+
+    return $query->get_posts();
   }
 
   public function recent_posts($count = 3, $post_type = 'post'){
