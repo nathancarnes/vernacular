@@ -31,3 +31,7 @@ function remove_category_list_rel($output){
 add_filter('wp_list_categories', 'remove_category_list_rel');
 add_filter('the_category', 'remove_category_list_rel');
 
+// Turns any string into a valid HTML ID
+function id_from_title($title){
+  return strtolower(preg_replace("/\\W/u", "-", $title));
+}
