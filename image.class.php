@@ -1,7 +1,7 @@
 <?php
 
 class VernacularImage{
-  private $width, $height, $crop, $file, $editor;
+  private $width, $height, $crop, $file, $editor, $file_found;
   public $directory = 'images';
 
   public function __construct($file){
@@ -13,16 +13,20 @@ class VernacularImage{
   }
 
   public function crop($width, $height, $crop = true){
-    $this->width = (int)$width;
-    $this->height = (int)$height;
-    $this->crop = $crop;
+    if(!is_wp_error($this->editor)){
+      $this->width = (int)$width;
+      $this->height = (int)$height;
+      $this->crop = $crop;
 
-    if(!$this->is_cached()){
-      $this->editor->resize($this->width, $this->height, $this->crop);
-      $this->editor->save( $this->output_file_with_path() );
+      if(!$this->is_cached()){
+        $this->editor->resize($this->width, $this->height, $this->crop);
+        $this->editor->save( $this->output_file_with_path() );
+      }
+
+      return $this->output_url() . $this->filename();
+    } else {
+      return $this->file;
     }
-
-    return $this->output_url() . $this->filename();
   }
 
   private function source_file(){
@@ -93,17 +97,20 @@ class VernacularImage{
 
 class_alias('VernacularImage', '_image');
 
-function the_resized_post_thumbnail($width = 500, $height = 300, $crop = true){
+function the_resized_post_thumbnail($width = 500, $height = 300, $crop = true, $alt = null, $class = 'wp-post-image'){
   $upload_dir = wp_upload_dir();
 
   $attachment = wp_get_attachment_metadata(get_post_thumbnail_id(), 'original');
-  $image_path = $upload_dir['baseurl'] . '/' . $attachment['file'];
+
+  if($attachment){
+    $image_path = $upload_dir['baseurl'] . '/' . $attachment['file'];
 
 
-  $image = new VernacularImage($image_path);
-  $cropped_image = $image->crop($width, $height, $crop);
+    $image = new VernacularImage($image_path);
+    $cropped_image = $image->crop($width, $height, $crop);
 
-  echo '<img src="' . $cropped_image . '" alt="">';
+    echo '<img src="' . $cropped_image . '" alt="'.$alt.'" class="'.$class.'">';
+  }
 }
 
 function VernacularImage($image){
