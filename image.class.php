@@ -1,8 +1,16 @@
 <?php
+/**
+ * A class to handle image resizing and cropping.
+ * Uses WP_Image_Editor to provide a simple interface for image cropping and
+ * resizing and implements a simple file system cache for the resulting images
+ *
+ * @author nathancarnes
+ * @package VernacularImage
+ **/
 
 class VernacularImage{
   private $width, $height, $crop, $file, $editor, $file_found;
-  public $directory = 'images';
+  public $directory = 'images'; /**< cache directory relative to WP_CONTENT */
 
   public function __construct($file){
     $this->setup();
@@ -12,7 +20,17 @@ class VernacularImage{
     return $this;
   }
 
+  /**
+   * resizes and crops $file
+   *
+   * @param $width the desired maximum width in pixels
+   * @param $height the desired maximum height in pixels
+   * @param $crop whether or not to perform a hard crop match $height and $width exactly; defaults to *true*
+   * @return Full path to cropped and cached file relative to the document root
+   * @author nathancarnes
+   **/
   public function crop($width, $height, $crop = true){
+
     if(!is_wp_error($this->editor)){
       $this->width = (int)$width;
       $this->height = (int)$height;
@@ -113,10 +131,25 @@ function the_resized_post_thumbnail($width = 500, $height = 300, $crop = true, $
   }
 }
 
+/**
+ * Convenience method to create a new instance of VernacularImage and chain
+ * methods to it.
+ *
+ * @return new VernacularImage
+ * @author nathancarnes
+ * @param image path to image file
+ **/
 function VernacularImage($image){
   return new VernacularImage($image);
 }
 
+/**
+ * Alias of VernacularImage()
+ *
+ * @return new VernacularImage
+ * @author nathancarnes
+ * @param image path to image file
+ **/
 function _image($image){
   return new VernacularImage($image);
 }
