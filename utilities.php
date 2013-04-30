@@ -35,3 +35,25 @@ add_filter('the_category', 'remove_category_list_rel');
 function id_from_title($title){
   return strtolower(preg_replace("/\\W/u", "-", $title));
 }
+
+
+// Tag Helpers
+function build_tag($content = null, $attributes = null, $tag = 'p'){
+  $self_closing_tags = array('input', 'img', 'br', 'hr');
+
+  if(in_array($tag, $self_closing_tags)){
+    return "<$tag $attributes />\n";
+  } else {
+    return "<$tag $attributes>$content</$tag>\n";
+  }
+}
+
+function build_attributes($attributes){
+  $html_attributes = '';
+
+  foreach($attributes as $key => $value){
+    $html_attributes .= " $key=\"$value\"";
+  }
+
+  return $html_attributes;
+}
