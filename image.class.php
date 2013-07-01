@@ -1,16 +1,8 @@
 <?php
-/**
- * A class to handle image resizing and cropping.
- * Uses WP_Image_Editor to provide a simple interface for image cropping and
- * resizing and implements a simple file system cache for the resulting images
- *
- * @author nathancarnes
- * @package VernacularImage
- **/
 
 class VernacularImage{
   private $width, $height, $crop, $file, $editor, $file_found;
-  public $directory = 'images'; /**< cache directory relative to WP_CONTENT */
+  public $directory = 'images';
 
   public function __construct($file){
     $this->setup();
@@ -20,17 +12,7 @@ class VernacularImage{
     return $this;
   }
 
-  /**
-   * resizes and crops $file
-   *
-   * @param $width the desired maximum width in pixels
-   * @param $height the desired maximum height in pixels
-   * @param $crop whether or not to perform a hard crop match $height and $width exactly; defaults to *true*
-   * @return Full path to cropped and cached file relative to the document root
-   * @author nathancarnes
-   **/
   public function crop($width, $height, $crop = true){
-
     if(!is_wp_error($this->editor)){
       $this->width = (int)$width;
       $this->height = (int)$height;
@@ -86,13 +68,16 @@ class VernacularImage{
   }
 
   private function sanitize_file_path($file){
-    return str_replace( get_site_url(), '', $file);
+    return str_replace( $this->site_url(), '', $file);
+  }
+
+  private function site_url(){
+    return get_site_url(null, '', 'http');
   }
 
   private function output_file_with_path(){
     return $this->output_path() . $this->filename();
   }
-
 
   private function is_cached(){
     return file_exists($this->output_file_with_path());
@@ -131,25 +116,28 @@ function the_resized_post_thumbnail($width = 500, $height = 300, $crop = true, $
   }
 }
 
-/**
- * Convenience method to create a new instance of VernacularImage and chain
- * methods to it.
- *
- * @return new VernacularImage
- * @author nathancarnes
- * @param image path to image file
- **/
+
+function the_resized_post_thumbnail_path($width = 500, $height = 300, $crop = true, $alt = null, $class = 'wp-post-image'){
+  $upload_dir = wp_upload_dir();
+
+  $attachment = wp_get_attachment_metadata(get_post_thumbnail_id(), 'original');
+
+  if($attachment){
+    $image_path = $upload_dir['baseurl'] . '/' . $attachment['file'];
+
+
+    $image = new VernacularImage($image_path);
+    $cropped_image = $image->crop($width, $height, $crop);
+
+    echo $cropped_image;
+  }
+}
+
+
 function VernacularImage($image){
   return new VernacularImage($image);
 }
 
-/**
- * Alias of VernacularImage()
- *
- * @return new VernacularImage
- * @author nathancarnes
- * @param image path to image file
- **/
 function _image($image){
   return new VernacularImage($image);
 }
